@@ -16,7 +16,7 @@ ytdl_format_options = {
     'extractaudio':True,
     'audioformat':'mp3',
     'outtmpl': u'%(id)s.%(ext)s',
-    'noplaylist':False,
+    'noplaylist':True,
     'nocheckcertificate':True,
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
@@ -27,8 +27,8 @@ ytdl_format_options = {
 ffmpeg_options = {
     'options': '-vn'
 }
-help = '**Kaimo muzikanto komandos**\n```+p arba +play - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```'
-todo = '**Kuriama**\n```+skip - Pereiti prie sekančios dainos\n+bass - Reguliuoti bosą\n+vol - Reguliuoti garsą\nInformacija apie dainą (laikas, pavadinimas, kas paleido)```'
+help = '**Kaimo muzikanto komandos**\n```+p arba +g - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```'
+todo = '**Kuriama**\n```+skip - Pereiti prie sekančios dainos\n+bass - Reguliuoti bosą\n+vol - Reguliuoti garsą\nInformacija apie dainą (laikas, pavadinimas, kas paleido)\nDainų leidimas iš playlisto```'
 
 
 client = commands.Bot(command_prefix='+')
@@ -112,7 +112,7 @@ async def pagalba(ctx):
     stringas = help + '\n' + todo
     await ctx.send(stringas)
 
-@client.command(name='play')
+@client.command(name='g')
 async def p(ctx, url): #play command
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
     if voice == None:
@@ -124,7 +124,7 @@ async def p(ctx, url): #play command
         voice_channel = server.voice_client
 
         song = url.split('=')
-        if song[0] == 'https://www.youtube.com/watch?v':
+        if song[0] == 'https://www.youtube.com/watch?v' and '&' not in song[1]:
             url_dict = {'url':url, 'song':song[1]}
             await ctx.send('`{}` pridėta į albumą'.format(url))
             
