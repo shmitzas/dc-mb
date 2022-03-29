@@ -1,6 +1,7 @@
 import asyncio
 import os
 from posixpath import split
+from typing import overload
 import discord
 from discord.ext import commands, tasks
 from discord.voice_client import VoiceClient
@@ -26,6 +27,9 @@ ytdl_format_options = {
 ffmpeg_options = {
     'options': '-vn'
 }
+help = '**Kaimo muzikanto komandos**\n```+p arba +play - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```'
+todo = '**Kuriama**\n```+skip - Pereiti prie sekančios dainos\n+bass - Reguliuoti bosą\n+vol - Reguliuoti garsą\nInformacija apie dainą (laikas, pavadinimas, kas paleido)```'
+
 
 client = commands.Bot(command_prefix='+')
 
@@ -57,11 +61,22 @@ async def ping(ctx):
 async def j(ctx): #join
     channel = ctx.message.author.voice.channel
     await channel.connect()
+    await ctx.send('Tesiam koncertą! :sunglasses:')
+@commands.command()
+async def join(ctx): #join
+    if not ctx.message.author.voice:
+        await ctx.send("Ateik pakalbėt, tada pagrosiu :grinning:")
+    else:
+        channel = ctx.message.author.voice.channel
+        await channel.connect()
+        msg = 'Koncertas prasideda! :raised_hands:\nTik duok keletą sekundžių apšilt :grinning:'
+        await ctx.send(msg)
 
 @client.command()
 async def resume(ctx): #resume
     server = ctx.message.guild
     voice_channel = server.voice_client
+    await ctx.send('Tesiam koncertą! :sunglasses:')
     voice_channel.resume()
 
 @client.command()
@@ -69,12 +84,16 @@ async def pause(ctx):
     server = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.pause()
+    await ctx.send('Padarom pertraukėlę :beers:')
 
 @client.command()
 async def stop(ctx):
     server = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.stop()
+    await ctx.send('Koncertas baigtas! :pensive: ')
+    voice_client = ctx.message.guild.voice_client
+    await voice_client.disconnect()
 
 @client.command()
 async def skip(ctx):
@@ -89,37 +108,43 @@ async def bass(ctx):
     await ctx.send('Dar tokio prijomo nemoku :face_with_raised_eyebrow:')
 
 @client.command()
+async def pagalba(ctx):
+    stringas = help + '\n' + todo
+    await ctx.send(stringas)
+
+@client.command(name='play')
 async def p(ctx, url): #play command
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
     if voice == None:
-        channel = ctx.message.author.voice.channel
-        await channel.connect()
-
-    server = ctx.message.guild
-    voice_channel = server.voice_client
-
-    song = url.split('=')
-    if song[0] == 'https://www.youtube.com/watch?v':
-        url_dict = {'url':url, 'song':song[1]}
-        await ctx.send('`{}` pridėta į albumą'.format(url))
-        
-    elif song[0] == 'https://www.youtube.com/playlist?list':
-        await ctx.send('Man geriau po vieną dainą paduok :smile:')
+        await join(ctx)
+        await asyncio.sleep(2)
+        await p(ctx, url)
     else:
-        await ctx.send('Tokios dainos nežinau, surask kitą')
+        server = ctx.message.guild
+        voice_channel = server.voice_client
 
-    ''' ------------------[ Player ]------------------- '''
-    if len(url_dict) != 0:
-        with youtube_dl.YoutubeDL(ytdl_format_options) as ydl:
-            ydl.download(url_dict['url'])
-        while voice_channel.is_playing() or voice_channel.is_paused():
-            await asyncio.sleep(2)
-        for file in os.listdir("./"):
-            song_name = url_dict['song']+'.mp3'
-            if file.endswith(song_name):
-                print(file)
-                voice_channel.play(discord.FFmpegPCMAudio(song_name))
-    
+        song = url.split('=')
+        if song[0] == 'https://www.youtube.com/watch?v':
+            url_dict = {'url':url, 'song':song[1]}
+            await ctx.send('`{}` pridėta į albumą'.format(url))
+            
+        elif song[0] == 'https://www.youtube.com/playlist?list':
+            await ctx.send('Man geriau po vieną dainą paduok :smile:')
+        else:
+            await ctx.send('Tokios dainos nežinau, surask kitą')
 
-print("Bot online")
+        ''' ------------------[ Player ]------------------- '''
+        if len(url_dict) != 0:
+            with youtube_dl.YoutubeDL(ytdl_format_options) as ydl:
+                ydl.download(url_dict['url'])
+            while voice_channel.is_playing() or voice_channel.is_paused():
+                await asyncio.sleep(2)
+            for file in os.listdir("./"):
+                song_name = url_dict['song']+'.mp3'
+                if file.endswith(song_name):
+                    print(file)
+                    voice_channel.play(discord.FFmpegPCMAudio(song_name))
+        
+print('\n-----[ Kaimo muzikantas ] -----\n')
+print(' -> Bot online\n')
 client.run('ODgxODg5ODcwMDIzMzYwNTYy.YSzZ8Q.VydXQ5_gbCDDHBPJmcNi05h1iRQ')
