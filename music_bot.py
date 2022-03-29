@@ -5,7 +5,6 @@ import discord
 from discord.ext import commands, tasks
 from discord.voice_client import VoiceClient
 import yt_dlp as youtube_dl
-# from __future__ import unicode_literals
 
 from random import choice
 
@@ -15,7 +14,7 @@ ytdl_format_options = {
     'format':'bestaudio/best',
     'extractaudio':True,
     'audioformat':'mp3',
-    'outtmpl': u'%(id)s.%(ext)s',     #name the file the ID of the video
+    'outtmpl': u'%(id)s.%(ext)s',
     'noplaylist':False,
     'nocheckcertificate':True,
     'postprocessors': [{
@@ -97,7 +96,7 @@ async def p(ctx, url): #play command
     if song[0] == 'https://www.youtube.com/watch?v':
         url_dict = {'url':url, 'song':song[1]}
         await ctx.send('`{}` pridėta į albumą'.format(url))
-        
+
     elif song[0] == 'https://www.youtube.com/playlist?list':
         await ctx.send('Man geriau po vieną dainą paduok :smile:')
     else:
