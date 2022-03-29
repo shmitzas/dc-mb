@@ -58,27 +58,33 @@ async def j(ctx): #join
     channel = ctx.message.author.voice.channel
     await channel.connect()
 
-async def res(ctx): #resume
+@client.command()
+async def resume(ctx): #resume
     server = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.resume()
 
+@client.command()
 async def pause(ctx):
     server = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.pause()
 
+@client.command()
 async def stop(ctx):
     server = ctx.message.guild
     voice_channel = server.voice_client
     voice_channel.stop()
 
+@client.command()
 async def skip(ctx):
     await ctx.send('Dar tokio prijomo nemoku :face_with_raised_eyebrow:')
 
+@client.command()
 async def vol(ctx): #volume
     await ctx.send('Dar tokio prijomo nemoku :face_with_raised_eyebrow:')
-
+    
+@client.command()
 async def bass(ctx):
     await ctx.send('Dar tokio prijomo nemoku :face_with_raised_eyebrow:')
 
@@ -96,7 +102,7 @@ async def p(ctx, url): #play command
     if song[0] == 'https://www.youtube.com/watch?v':
         url_dict = {'url':url, 'song':song[1]}
         await ctx.send('`{}` pridėta į albumą'.format(url))
-
+        
     elif song[0] == 'https://www.youtube.com/playlist?list':
         await ctx.send('Man geriau po vieną dainą paduok :smile:')
     else:
