@@ -53,7 +53,7 @@ def is_connected(ctx):
     voice_client = ctx.message.guild.voice_client
     return voice_client and voice_client.is_connected()
 
-client = commands.Bot(command_prefix='+')
+client = commands.Bot(command_prefix='?')
 
 status = ['Joins koncertuoja!', 'Pertaukėlė', 'Koncertas baigtas']
 queue = []
@@ -143,7 +143,6 @@ async def play(ctx):
         try:
             while voice_channel.is_playing() or voice_channel.is_paused():
                 await asyncio.sleep(2)
-                pass
 
         except AttributeError:
             pass
@@ -218,4 +217,6 @@ async def view(ctx):
 async def change_status():
     await client.change_presence(activity=discord.Game(choice(status)))
 
-client.run('ODgxODg5ODcwMDIzMzYwNTYy.YSzZ8Q.VydXQ5_gbCDDHBPJmcNi05h1iRQ')
+print('\nRefference code bot online\n')
+
+client.run('ODgyMzE5OTQ5OTYyNTc1ODcz.YS5qfA.GB21iWctpEMqzht2jHTeLf88C30')
