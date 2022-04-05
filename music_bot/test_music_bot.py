@@ -14,7 +14,7 @@ test_token = 'ODgyMzE5OTQ5OTYyNTc1ODcz.YS5qfA.GB21iWctpEMqzht2jHTeLf88C30'
 main_token = 'ODgxODg5ODcwMDIzMzYwNTYy.YSzZ8Q.VydXQ5_gbCDDHBPJmcNi05h1iRQ'
 
 zinute = {
-    'pagalba': '**Kaimo muzikanto komandos**\n```+g - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```',
+    'pagalba': '**Kaimo muzikanto komandos**\n```+p - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```',
     'todo': '**Kuriama**\n```+skip - Pereiti prie sekančios dainos\n+bass - Reguliuoti bosą\n+vol - Reguliuoti garsą\nInformacija apie dainą (laikas, pavadinimas, kas paleido)\nDainų leidimas iš playlisto```',
     'bugs': '**Žinomos problemos**\n```1. Pridedant dainą dažniau nei 1 per 5sec, pridėta daina negros\n```',
     'prideta_daina': '>>> `{}` pridėta į albumą\n',
@@ -47,7 +47,7 @@ ffmpeg_options = {
 queue = []
 loop = False
 
-client = commands.Bot(command_prefix='-')
+client = commands.Bot(command_prefix='.')
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
@@ -181,14 +181,17 @@ async def pagalba(ctx):
     await ctx.send(stringas)
 
 
-@client.command(name='g', help='+g - Paleisti/pridėti dainą į eilę')
-async def p(ctx, url):  # play command
+@client.command(name='p', help='+g - Paleisti/pridėti dainą į eilę')
+async def play(ctx, url):  # play command
     voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
     if voice == None:
         await join(ctx)
     server = ctx.message.guild
     voice_channel = server.voice_client
     if not voice_channel.is_playing() or not voice_channel.is_paused():
+        if '&' in url:
+            tmp_url = url.split('&')
+            url = tmp_url[0]
         song = url.split('=')
         if song[0] == 'https://www.youtube.com/watch?v' and '&' not in song[1]:
             queue.append(url)

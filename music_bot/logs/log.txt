@@ -3,3 +3,5 @@
 Status: ok
 [2022-03-30 11:54:50.984777] Komanda: {name}https://www.youtube.com/watch?v=yHkdm3eRJd8
 Status: ok
+[2022-04-05 12:50:34.883428] Komanda: [-g] | url: https://www.youtube.com/watch?v=u1xrNaTO1bI
+Status: OK

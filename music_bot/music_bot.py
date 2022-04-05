@@ -131,7 +131,10 @@ async def p(ctx, url):  # play command
     else:
         server = ctx.message.guild
         voice_channel = server.voice_client
-
+        if '&' in url:
+            tmp_url = url.split('&')
+            url = tmp_url[0]
+        
         song = url.split('=')
         if song[0] == 'https://www.youtube.com/watch?v' and '&' not in song[1]:
             url_dict = {'url': url, 'song': song[1]}
