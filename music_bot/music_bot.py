@@ -12,9 +12,9 @@ from random import choice
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 
-main_token = 'ODgxODg5ODcwMDIzMzYwNTYy.YSzZ8Q.VydXQ5_gbCDDHBPJmcNi05h1iRQ'
+main_token = ''
 
-test_token = 'ODgyMzE5OTQ5OTYyNTc1ODcz.YS5qfA.GB21iWctpEMqzht2jHTeLf88C30'
+test_token = ''
 
 
 ytdl_format_options = {
