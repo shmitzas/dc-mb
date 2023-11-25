@@ -219,4 +219,4 @@ async def change_status():
 
 print('\nRefference code bot online\n')
 
-client.run('ODgyMzE5OTQ5OTYyNTc1ODcz.YS5qfA.GB21iWctpEMqzht2jHTeLf88C30')
+client.run('Discord-Dev-Token')
