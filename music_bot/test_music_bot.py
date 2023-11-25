@@ -10,8 +10,8 @@ from config import *
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 
-test_token = 'ODgyMzE5OTQ5OTYyNTc1ODcz.YS5qfA.GB21iWctpEMqzht2jHTeLf88C30'
-main_token = 'ODgxODg5ODcwMDIzMzYwNTYy.YSzZ8Q.VydXQ5_gbCDDHBPJmcNi05h1iRQ'
+test_token = ''
+main_token = ''
 
 zinute = {
     'pagalba': '**Kaimo muzikanto komandos**\n```+p - Paleisti/pridėti dainą į eilę\n+pause - Sustabdo dainą\n+resume - Tęsia dainą\n+stop - Išjungia dainą, atsijungia iš kanalo```',
